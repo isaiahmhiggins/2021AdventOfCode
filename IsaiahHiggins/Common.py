@@ -21,3 +21,12 @@ def eachWord(file, splitChar):
 
     return word
 
+def getCol(data):
+    result = []
+    for row in range(0, len(data[0])):
+        col = []
+        for line in data:
+            col += line[row]
+        result.append(col)
+    return result
+

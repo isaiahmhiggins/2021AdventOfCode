@@ -2,8 +2,8 @@ import sys
 sys.path.insert(1, 'C:/Users/Isaiah Higgins/Documents/GitHub/2021AdventOfCode/IsaiahHiggins')
 import Common as com
 
-#content = com.readAndCleanLine('Real.txt')
-content = com.readAndCleanLine('sample.txt')
+content = com.readAndCleanLine('Real.txt')
+#content = com.readAndCleanLine('sample.txt')
 
 def filterResults(pos, list, filter):
     result = []
@@ -12,21 +12,21 @@ def filterResults(pos, list, filter):
             result += [line]
     return result
 
-def findLevel(data, control = None):
-    for row in range(0, len(data[1])):
-        col = []
+def findLevel(data, control):
+    columns = com.getCol(data)
+    for row in range(0, len(columns)):
         if len(data) > 1:
-            for line in data:
-                col += line[row]
-            if len(data) > 1:
-                if control == 'oxygen':
-                    if(col.count('1') >= col.count('0')):
-                        data = filterResults(row, data, '1')
-                    else:
-                        data = filterResults(row, data, '0')
-                elif control == 'co2':
-                    if(col.count('1') < col.count('0')):
-                        data = filterResults(row, data, '1')
+            if control == 'oxygen':
+                if(columns[row].count('1') >= columns[row].count('0')):
+                    data = filterResults(row, data, '1')
+                else:
+                    data = filterResults(row, data, '0')
+            elif control == 'co2':
+                if(columns[row].count('1') < columns[row].count('0')):
+                    data = filterResults(row, data, '1')
+                else:
+                    data = filterResults(row, data, '0')
+            columns = com.getCol(data)
         else:
             break        
     return int(data[0], 2)
@@ -37,4 +37,3 @@ co2 = findLevel(content, 'co2')
 print(oxygen)
 print(co2)
 print(co2*oxygen)
-
