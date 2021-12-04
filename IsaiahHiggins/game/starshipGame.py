@@ -231,7 +231,12 @@ def main():
         mesg = font_style.render("Level: "+ str(msg), True, white)
         dis.blit(mesg, [block_size, block_size])
 
+    def displayScore(msg):
+        mesg = font_style.render("Score: "+ str(msg), True, white)
+        dis.blit(mesg, [dis_width - (15 * block_size), block_size])
+
     level = 0
+    score = 0
 
     # get user input
     while not game_over:
@@ -284,6 +289,7 @@ def main():
         dis.blit(bg, (0, 0))
         hero.move(x1, y1)
         displayLevel(level)
+        displayScore(score)
 
         # update enemy positions
         for ship in enemy:
@@ -299,6 +305,7 @@ def main():
             # remove enemy object if no bullets left and dead
             if not ship.alive and not ship.hasBullets:
                 enemy.remove(ship)
+                score += 1
  
         pygame.display.update()
  
