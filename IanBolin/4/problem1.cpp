@@ -719,6 +719,11 @@ int main()
             update_board(call, *board);
             if (check_board(*board))
             {
+                // for problem 1
+                // std::cout << score_board(*board) * call << std::endl;
+                // return 0;
+
+                // for problem 2
                 if (boards.size() == 1)
                 {
                     std::cout << score_board(*board) * call << std::endl;
