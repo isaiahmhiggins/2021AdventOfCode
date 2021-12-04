@@ -26,16 +26,22 @@ int main()
     }
 
     int64_t gamma = 0;
+
     for (int64_t i : bit_count)
     {
         gamma = gamma << 1;
-        if (i > 500)
+        if (i >= 500)
         {
             gamma = gamma | 0x1;
         }
     }
+
     int64_t epsilon = ~gamma & 0xFFF;
 
+    for (int64_t i : bit_count)
+    {
+        std::cout << i << std::endl;
+    }
     std::cout << "gamma: " << gamma << " epsilon: " << epsilon << " product: " << gamma * epsilon << std::endl;
 
     return 0;
