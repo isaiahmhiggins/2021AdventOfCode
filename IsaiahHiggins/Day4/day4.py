@@ -68,8 +68,7 @@ for draw in draws:
                     # when we get the intermediate step
                     if len(winningBoards) == len(every_board):
                         losingBoard = currentBoard
-                        solutionFound = True
-                
+                        solutionFound = True              
     else:
         break
 
@@ -81,16 +80,3 @@ for row in every_board[losingBoard]:
 
 print(winningDraw)
 print(answer * int(winningDraw))
-
-
-
-
-
-
-
-
-
-
-
-
-
