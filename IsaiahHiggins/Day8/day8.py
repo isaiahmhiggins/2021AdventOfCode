@@ -31,23 +31,24 @@ map = {"acedgfb":8, "cdfbe":5, "gcdfa":2, "fbcad":3, "dab":7,
 
 map = {"".join(sorted(k)):v for k,v in map.items()}
 
-ans = 0
+answer = 0
 for line in content:
     a,b = line.split(" | ")
-    a = a.split(" ")
-    b = b.split(" ")
+    list = a.split(" ")
+    word = b.split(" ")
     for perm in itertools.permutations("abcdefg"):
         # generate a mapping from the permutation
         pmap = {input:output for input,output in zip(perm,"abcdefg")}
+        print(pmap)
         # generate new mapping
-        anew = ["".join(pmap[c] for c in x) for x in a]
+        listnew = ["".join(pmap[c] for c in char) for char in list]
         # generate new solution
-        bnew = ["".join(pmap[c] for c in x) for x in b]
+        wordnew = ["".join(pmap[c] for c in char) for char in word]
         # check to see if the instance is correctly mapped
-        if all("".join(sorted(an)) in map for an in anew):
+        if all("".join(sorted(an)) in map for an in listnew):
             # sort bnew so it will match the map
-            bnew = ["".join(sorted(x)) for x in bnew]
+            wordnew = ["".join(sorted(x)) for x in wordnew]
             # decode map to get solution
-            ans += int("".join(str(map[x]) for x in bnew))
+            answer += int("".join(str(map[x]) for x in wordnew))
             break
-print(ans)
+print(answer)
