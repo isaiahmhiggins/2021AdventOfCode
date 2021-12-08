@@ -38,8 +38,6 @@ file = open("input.txt", "r")
 text = [int(x) for x in file.readline().strip().split(',')]
 
 last_energy = 10000000000
-# Only need to go until we hit the min
-# After that it just goes up
 for pos in range(len(text)):
     total_energy = 0
     for crab in text:
@@ -59,8 +57,6 @@ init = get_energy(800)
 
 # Part 2
 last_energy = 10000000000
-# Only need to go until we hit the min
-# After that it just goes up
 for pos in range(len(text)):
     total_energy = 0
     for crab in text:
