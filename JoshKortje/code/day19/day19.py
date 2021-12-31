@@ -16,9 +16,9 @@ from collections import Counter
 from collections import deque
 
 
-# To optimize I would need to store (for each beacon)
-# the manhattan distances to the other beacons. Then get
-# the intersections of the distances.
+# To optimize I would need to reorder the algorithm to
+# get the matching points first, then reorient
+# But I'm too lazy to make the change
 
 
 # Function to reorient to any direction
@@ -92,6 +92,7 @@ def attempt_place(space, scanner, scanner_locations):
                     space.update(shifted_points)
                     scanner_locations.append(diff)
                     return True
+
     return False
 
 
@@ -107,22 +108,35 @@ for line in file:
         text[-1].append(tuple([int(x) for x in line.strip().split(',')]))
 
 
-space = set(text.pop(0))
+space = set(text[0])
 scanner_locations = [(0, 0, 0)]
-space_dist = set()
-for scan_a, scan_b in itertools.product(space, repeat=2):
-    space_dist.add(spatial.distance.cityblock(scan_a, scan_b))
 
-num_found = 1
-while text:  # While we have unmatched scanners
-    scanner = text.pop(0)
+# Get all of the distances ahead of time
+scan_dists = list()
+for s in text:
+    this_s = set()
+    for scan_a, scan_b in itertools.product(s, repeat=2):
+        this_s.add(spatial.distance.cityblock(scan_a, scan_b))
+    scan_dists.append(this_s)
+
+# determine matching order
+min_distances = len(list(itertools.combinations(range(12), 2)))
+G = nx.Graph()
+for a, b in itertools.combinations(range(len(text)), 2):
+    if len(scan_dists[a].intersection(scan_dists[b])) >= min_distances:
+        G.add_edge(a, b)
+
+num_found = 0
+# This is the trick I picked up off the internet to
+# get more efficient. Use a bfs search to make sure you are
+# always connecting two pieces that match
+for scanner in list(nx.bfs_tree(G, 0))[1:]:
     # Try to place
-    if attempt_place(space, scanner, scanner_locations):
+    if attempt_place(space, text[scanner], scanner_locations):
         num_found += 1
         print(num_found)
     else:
         print('Miss')
-        text.append(scanner)
 
 
 # Part 2
